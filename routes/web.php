@@ -4,6 +4,10 @@ use App\Events\LoggedEvent;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LDemoController;
 use App\Models\LDemo;
+use App\Http\Controllers\OrderController;
+
+Route::resource('orders', OrderController::class);
+
 Route::get('/', [LDemoController::class, 'index']);
 
 Route::get('/demo1', [LDemoController::class, 'demo1']);
