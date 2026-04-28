@@ -10,15 +10,16 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\Order;
 
-class LoggedEvent
+class OrderCreatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public LDemo $demodata;
-    public function __construct(LDemo $demodata)
+    public Order $order;
+    public function __construct(Order $order)
     {
-        $this->demodata = $demodata;
+        $this->order = $order;
     }
 
     /**

@@ -15,7 +15,7 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'customer_name' => ['required', 'string', 'max:255'],
-            'order_amount'  => ['required', 'integer'],
+            'order_amount'  => ['required', 'numeric', 'integer', 'min:1'],
         ];
     }
 
@@ -25,6 +25,7 @@ class StoreOrderRequest extends FormRequest
             'customer_name.required' => 'Customer name is required.',
             'customer_name.string'   => 'Customer name must be a valid string.',
             'order_amount.required'  => 'Order amount is required.',
+            'order_amount.numeric'   => 'Order amount must be a number.',
             'order_amount.integer'   => 'Order amount must be a whole number.',
         ];
     }

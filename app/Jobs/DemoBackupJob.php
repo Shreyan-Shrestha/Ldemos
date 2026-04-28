@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\demobackup;
+use App\Models\LDemo;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
@@ -14,8 +15,8 @@ class DemoBackupJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public $demodata;
-    public function __construct($demodata)
+    public LDemo $demodata;
+    public function __construct(LDemo $demodata)
     {
         $this->demodata = $demodata;
     }
