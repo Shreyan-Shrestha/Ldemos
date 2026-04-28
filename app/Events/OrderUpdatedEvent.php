@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\LDemo;
+use App\Models\Order;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,14 +11,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class LoggedEvent
+class OrderUpdatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public LDemo $demodata;
-    public function __construct(LDemo $demodata)
+    public Order $order;
+    public int $oldamount;
+    
+    public function __construct(Order $order, int $oldamount)
     {
-        $this->demodata = $demodata;
+        $this->order = $order;
+        $this->oldamount = $oldamount;
     }
 
     /**
