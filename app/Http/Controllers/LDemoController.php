@@ -16,7 +16,7 @@ class LDemoController extends Controller
 
     public function index()
     {
-        $this->demoLogger->log("User accessed Index page");
+        $this->demoLogger->log("User accessed Index page | " . request()->header('User-Agent') . " | Referer: " . request()->header('Referer'));
         return view('welcome');
     }
 

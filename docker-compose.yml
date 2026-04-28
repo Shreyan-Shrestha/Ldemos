@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/var/www
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:4000"]
+      test: ["CMD", "curl", "-f", "http://localhost:4000/health"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -27,7 +27,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/lib/mysql
+      - mysql_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
