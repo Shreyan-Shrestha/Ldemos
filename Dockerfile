@@ -46,4 +46,3 @@ RUN composer install --no-interaction --prefer-dist
 # Set permissions for Laravel storage and bootstrap cache directories
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-CMD ["php", "-S", "0.0.0.0:4000", "-t", "public/"]
