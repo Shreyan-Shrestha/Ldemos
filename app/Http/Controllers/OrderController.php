@@ -30,10 +30,9 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        DB::Transaction(function () use ($request) {
+        
             $order = Order::create($request->validated());
             event(new OrderCreatedEvent($order));
-        });
         return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }
 
@@ -50,11 +49,10 @@ class OrderController extends Controller
 
     public function update(UpdateOrderRequest $request, Order $order)
     {
-        DB::Transaction(function () use ($request, $order) {
+        
             $oldamount = $order->order_amount;
             $order->update($request->validated());
             event(new OrderUpdatedEvent($order, $oldamount));
-        });
         return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
     }
 

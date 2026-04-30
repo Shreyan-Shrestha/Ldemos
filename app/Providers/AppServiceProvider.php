@@ -21,13 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('welcome', function ($view) {
+        View::composer(['welcome' , 'demo1'], function ($view) {
             $ldemos = LDemo::all();
-            $view->with('demos', $ldemos);
-        });
-
-        View::composer('demo1', function ($view) {
-            $ldemos = LDemo::latest()->take(1)->get();
             $view->with('demos', $ldemos);
         });
     }

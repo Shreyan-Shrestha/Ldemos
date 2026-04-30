@@ -17,14 +17,13 @@ class OrderUpdatedListener implements ShouldQueue
 
     public function handle(OrderUpdatedEvent $event): void
     {
-        sleep(5); // Simulate a time-consuming task
         $order = $event->order;
         $oldamount = $event->oldamount;
 
         $this->demoLogger->log(
             "OrderUpdatedListener: Sent to Queue to Update Order for:" . $order->customer_name . 
-            " from amount: " . $oldamount . 
-            " to new amount: " . $order->order_amount
+            " from amount: $" . $oldamount . 
+            " to new amount: $" . $order->order_amount
             );
     }
 }

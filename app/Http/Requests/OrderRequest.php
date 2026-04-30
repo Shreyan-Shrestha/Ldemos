@@ -24,7 +24,9 @@ class OrderRequest extends FormRequest
     {
         return [
             'customer_name' => 'required|string|max:255',
+            'customer_email' => 'nullable|email:dns|max:100',
             'order_amount' => 'required|integer|min:0',
+            
         ];
     }
 
@@ -35,6 +37,8 @@ class OrderRequest extends FormRequest
             'customer_name.string'   => 'Customer name must be a valid string.',
             'order_amount.required'  => 'Order amount is required.',
             'order_amount.integer'   => 'Order amount must be a whole number.',
+            'customer_email.max'     => 'Customer email must not exceed 100 characters.',
+            'customer_email.dns'     => 'Please provide a valid email address.',
         ];
     }
 }

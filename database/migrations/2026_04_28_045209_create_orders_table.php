@@ -14,6 +14,7 @@ return new class extends Migration
        Schema::create('orders', function (Blueprint $table) {
             $table->id('customer_id');       // auto-increment PK, starts at 1
             $table->string('customer_name');
+            $table->string('customer_email')->nullable();
             $table->integer('order_amount');
             $table->timestamps();
         });

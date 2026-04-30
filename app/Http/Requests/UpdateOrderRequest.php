@@ -15,6 +15,7 @@ class UpdateOrderRequest extends FormRequest
     {
         return [
             'customer_name' => ['required', 'string', 'max:255'],
+            'customer_email' => ['required', 'email', 'max:255'],
             'order_amount'  => ['required', 'numeric','integer', 'min:1'],
         ];
     }

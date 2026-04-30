@@ -26,7 +26,6 @@ class DemoBackupJob implements ShouldQueue
      */
     public function handle(): void
     {
-            sleep(2);
             demobackup::create([
             'name' => $this->demodata->name,
             'description' => $this->demodata->description,

@@ -10,32 +10,32 @@
             {{-- Back + Title --}}
             <div class="mb-4">
                 <a href="{{ route('orders.index') }}"
-                   class="d-inline-flex align-items-center gap-1 text-decoration-none mb-3"
-                   style="font-size:0.8rem; color:#6b7280;">
+                    class="d-inline-flex align-items-center gap-1 text-decoration-none mb-3"
+                    style="font-size:0.8rem; color:#6b7280;">
                     <i class="bi bi-arrow-left"></i> Back to orders
                 </a>
                 <h1 class="fw-bold mb-1" style="font-size:1.5rem; letter-spacing:-0.02em;">New Order</h1>
                 <p class="text-muted mb-0" style="font-size:0.875rem;">Fill in the details to create a new order</p>
 
                 @if(session('error'))
-    <div class="alert d-flex align-items-center gap-2 border-0 mb-4"
-         style="background:#fef2f2; color:#991b1b; border-radius:10px; font-size:0.875rem;">
-        <i class="bi bi-exclamation-circle-fill" style="font-size:1rem;"></i>
-        {{ session('error') }}
-    </div>
-@endif
+                <div class="alert d-flex align-items-center gap-2 border-0 mb-4"
+                    style="background:#fef2f2; color:#991b1b; border-radius:10px; font-size:0.875rem;">
+                    <i class="bi bi-exclamation-circle-fill" style="font-size:1rem;"></i>
+                    {{ session('error') }}
+                </div>
+                @endif
 
-@if($errors->any())
-    <div class="alert d-flex align-items-start gap-2 border-0 mb-4"
-         style="background:#fef2f2; color:#991b1b; border-radius:10px; font-size:0.875rem;">
-        <i class="bi bi-exclamation-circle-fill mt-1" style="font-size:1rem; flex-shrink:0;"></i>
-        <ul class="mb-0 ps-2">
-            @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
+                @if($errors->any())
+                <div class="alert d-flex align-items-start gap-2 border-0 mb-4"
+                    style="background:#fef2f2; color:#991b1b; border-radius:10px; font-size:0.875rem;">
+                    <i class="bi bi-exclamation-circle-fill mt-1" style="font-size:1rem; flex-shrink:0;"></i>
+                    <ul class="mb-0 ps-2">
+                        @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
             </div>
 
             {{-- Form card --}}
@@ -47,13 +47,13 @@
                         <div class="mb-3">
                             <label for="customer_name" class="form-label fw-semibold" style="font-size:0.85rem;">Customer Name</label>
                             <input type="text"
-                                   class="form-control @error('customer_name') is-invalid @enderror"
-                                   id="customer_name" name="customer_name"
-                                   value="{{ old('customer_name') }}"
-                                   placeholder="e.g. Jane Cooper"
-                                   style="border-radius:9px; font-size:0.9rem; border-color:#e5e7eb;">
+                                class="form-control @error('customer_name') is-invalid @enderror"
+                                id="customer_name" name="customer_name"
+                                value="{{ old('customer_name') }}"
+                                placeholder="e.g. Jane Cooper"
+                                style="border-radius:9px; font-size:0.9rem; border-color:#e5e7eb;">
                             @error('customer_name')
-                                <div class="invalid-feedback" style="font-size:0.8rem;">{{ $message }}</div>
+                            <div class="invalid-feedback" style="font-size:0.8rem;">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -61,17 +61,35 @@
                             <label for="order_amount" class="form-label fw-semibold" style="font-size:0.85rem;">Order Amount</label>
                             <div class="input-group" style="border-radius:9px; overflow:hidden;">
                                 <span class="input-group-text border-end-0"
-                                      style="background:#f9fafb; border-color:#e5e7eb; font-size:0.9rem; color:#6b7280;">$</span>
+                                    style="background:#f9fafb; border-color:#e5e7eb; font-size:0.9rem; color:#6b7280;">$</span>
                                 <input type="number"
-                                       class="form-control border-start-0 @error('order_amount') is-invalid @enderror"
-                                       id="order_amount" name="order_amount"
-                                       value="{{ old('order_amount') }}"
-                                       placeholder="0"
-                                       style="font-size:0.9rem; border-color:#e5e7eb;">
+                                    class="form-control border-start-0 @error('order_amount') is-invalid @enderror"
+                                    id="order_amount" name="order_amount"
+                                    value="{{ old('order_amount') }}"
+                                    placeholder="0"
+                                    style="font-size:0.9rem; border-color:#e5e7eb;">
                                 @error('order_amount')
-                                    <div class="invalid-feedback" style="font-size:0.8rem;">{{ $message }}</div>
+                                <div class="invalid-feedback" style="font-size:0.8rem;">{{ $message }}</div>
                                 @enderror
                             </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="customer_email" class="form-label 1875remfw-semibold" style="font-size:0.85rem;">
+                                Customer Email (optional)
+                            </label>
+
+                            <input type="email"
+                                class="form-control @error('customer_email') is-invalid @enderror"
+                                id="customer_email" name="customer_email"
+                                value="{{ old('customer_email') }}"
+                                placeholder="e.g. jane@example.com"
+                                style="border-radius:9px; font-size:0.9rem; border-color:#e5e7eb;"
+                            >
+
+                            @error('customer_email')
+                            <div class="invalid-feedback" style="font-size:0.8rem;">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="d-grid">
