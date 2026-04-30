@@ -67,6 +67,19 @@
                             </div>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="customer_email" class="form-label fw-semibold" style="font-size:0.85rem;">Customer Email</label>
+                            <input type="email"
+                                   class="form-control @error('customer_email') is-invalid @enderror"
+                                   id="customer_email" name="customer_email"
+                                   value="{{ old('customer_email', $order->customer_email) }}"
+                                   placeholder="e.g. jane@example.com"
+                                   style="border-radius:9px; font-size:0.9rem; border-color:#e5e7eb;">
+                            @error('customer_email')
+                                <div class="invalid-feedback" style="font-size:0.8rem;">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-dark py-2" style="border-radius:9px; font-size:0.9rem;">
                                 <i class="bi bi-check-lg me-2"></i>Update Order
