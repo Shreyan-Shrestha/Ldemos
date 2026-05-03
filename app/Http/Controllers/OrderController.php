@@ -32,7 +32,7 @@ class OrderController extends Controller
     {
         
             $order = Order::create($request->validated());
-            event(new OrderCreatedEvent($order));
+            // event(new OrderCreatedEvent($order));
         return redirect()->route('orders.index')->with('success', 'Order created successfully.');
     }
 
@@ -52,14 +52,14 @@ class OrderController extends Controller
         
             $oldamount = $order->order_amount;
             $order->update($request->validated());
-            event(new OrderUpdatedEvent($order, $oldamount));
+            // event(new OrderUpdatedEvent($order, $oldamount));
         return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
     }
 
     public function destroy(Order $order)
     {
         $order->delete();
-        $this->demoLogger->log("User deleted order for " . $order->customer_name);
+        // $this->demoLogger->log("User deleted order for " . $order->customer_name);
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
     }
 }

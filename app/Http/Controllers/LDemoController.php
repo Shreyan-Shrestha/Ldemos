@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Events\LoggedEvent;
 use App\Models\LDemo;
 use App\Models\demobackup;
+use App\Models\Order;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
 
 class LDemoController extends Controller
 {
@@ -18,8 +20,10 @@ class LDemoController extends Controller
 
     public function index()
     {
-        $this->demoLogger->log("User accessed Index page | " . request()->header('User-Agent') . " | Referer: " . request()->header('Referer'));
-        return view('welcome');
+        //$this->demoLogger->log("User accessed Index page | " . request()->header('User-Agent') . " | Referer: " . request()->header('Referer'));
+        $activity = Activity::all();
+        $orders = Order::all();
+        return view('welcome', compact('activity', 'orders'));
     }
 
     public function demo1()

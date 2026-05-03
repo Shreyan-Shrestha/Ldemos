@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
 
 class Order extends Model
 {
+    use LogsActivity;
     protected $primaryKey = 'customer_id';
 
     protected $fillable = [

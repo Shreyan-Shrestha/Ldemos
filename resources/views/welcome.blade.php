@@ -27,6 +27,36 @@
 
     </div>
 
+    <div class="mt-8">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Activity Log</h2>
+        @if($activity->isEmpty())
+        <p class="text-lg text-gray-600">No activity recorded.</p>
+        @else
+        <ul class="list-group text-start my-3 gap-2">
+            @foreach($activity as $act)
+            <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th class="border px-4 py-2">Description</th>
+                        <th class="border px-4 py-2">Date</th>
+                        <th class="border px-4 py-2">Subject Type</th>
+                        <th class="border px-4 py-2">Customer Name</th>
+                        <th class="border px-4 py-2">Order Amount</th>
+                        <th class="border px-4 py-2">Customer Email</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td class="border px-4 py-2">{{ $act->description }}</td>
+                    <td class="border px-4 py-2">{{ $act->created_at }}</td>
+                    <td class="border px-4 py-2">{{ $act->subject_type }}</td>
+                    <td class="border px-4 py-2">{{ $orders[$act->subject_id]->customer_name ?? 'N/A' }}</td>
+                    <td class="border px-4 py-2">{{ $orders[$act->subject_id]->order_amount  ?? 'N/A' }}</td>
+                    <td class="border px-4 py-2">{{ $orders[$act->subject_id]->customer_email  ?? 'N/A' }}</td>
+                </tr>
+            @endforeach
+        </ul>
+        @endif
+
 </div>
 
 
