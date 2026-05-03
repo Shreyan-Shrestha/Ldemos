@@ -6,6 +6,8 @@ use App\Services\DemoLogger;
 use Illuminate\Http\Request;
 use App\Events\LoggedEvent;
 use App\Models\LDemo;
+use App\Models\demobackup;
+use Illuminate\Support\Facades\DB;
 
 class LDemoController extends Controller
 {
@@ -16,7 +18,7 @@ class LDemoController extends Controller
 
     public function index()
     {
-        $this->demoLogger->log("User accessed Index page");
+        $this->demoLogger->log("User accessed Index page | " . request()->header('User-Agent') . " | Referer: " . request()->header('Referer'));
         return view('welcome');
     }
 
@@ -45,5 +47,11 @@ class LDemoController extends Controller
         $this->demoLogger->log("Event triggered by " . $demodata->name);
         event(new LoggedEvent($demodata));
         return redirect('/')->with('success', 'Data added successfully!');
+    }
+
+    public function deletedHistory()
+    {
+        $deletedhistory = demobackup::all();
+        return view('deletedhistory', compact('deletedhistory'));
     }
 }
