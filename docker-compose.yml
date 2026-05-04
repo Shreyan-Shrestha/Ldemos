@@ -47,6 +47,22 @@ services:
       retries: 3
       start_period: 10s
 
+  redis:
+    image: redis
+    container_name: redis_container
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: redisinsight_container
+    restart: unless-stopped
+    ports:
+      - "5540:5540"
+    depends_on:
+      - redis
+  
   phpmyadmin:
     image: phpmyadmin
     container_name: phpmyadmin_container

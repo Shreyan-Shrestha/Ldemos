@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\LDemo;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -21,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrapFive();
+        
         View::composer(['welcome' , 'demo1'], function ($view) {
             $ldemos = LDemo::all();
             $view->with('demos', $ldemos);

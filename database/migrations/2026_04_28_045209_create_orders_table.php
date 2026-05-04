@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('customer_email')->nullable();
             $table->integer('order_amount');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

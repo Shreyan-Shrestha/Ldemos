@@ -7,32 +7,70 @@ use Illuminate\Http\Request;
 use App\Events\LoggedEvent;
 use App\Models\LDemo;
 use App\Models\demobackup;
+use App\Models\Order;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Spatie\Activitylog\Models\Activity;
+use Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer;
 
 class LDemoController extends Controller
 {
-    public function __construct(public DemoLogger $demoLogger)
-    {
-
-    }
+    public function __construct(public DemoLogger $demoLogger) {}
 
     public function index()
     {
-        $this->demoLogger->log("User accessed Index page | " . request()->header('User-Agent') . " | Referer: " . request()->header('Referer'));
-        return view('welcome');
+        $startTime = microtime(true);
+        $source = "database";
+
+        $page = request()->input('page', 1);
+        $perPage = 5;
+        
+        if (Cache::has('activity.cache')) {
+            $source = "cache";
+        }
+
+        $allActivity = Cache::remember('activity.cache', 60, function () {
+        return Activity::inLog('default')->latest()->get()->map(function ($act) {
+            return [
+                'id'               => $act->id,
+                'log_name'         => $act->log_name,
+                'description'      => $act->description,
+                'subject_type'     => $act->subject_type,
+                'subject_id'       => $act->subject_id,
+                'event'            => $act->event,
+                'created_at'       => $act->created_at->toDateTimeString(),
+            ];
+        })->toArray();
+    });
+
+        $timeTaken = microtime(true) - $startTime;
+
+        $logindex = Activity::inLog('index')->get();
+        $orders = Order::all()->keyBy('customer_id');
+
+        $allActivity = collect($allActivity);
+
+        $activity = new \Illuminate\Pagination\LengthAwarePaginator(
+            $allActivity->forPage($page, $perPage),
+            $allActivity->count(),
+            $perPage,
+            $page,
+            ['path' => request()->url()]
+        );
+
+        return view('welcome', compact('activity', 'orders', 'logindex', 'timeTaken', 'source'));
     }
 
     public function demo1()
     {
-        $this->demoLogger->log("User accessed Demo1 page");
+        activity('index')->log('User accessed Demo1 page');
         return view('demo1');
     }
 
     public function addDataform()
     {
-        $this->demoLogger->log("User accessed Add Data form");
+        activity('index')->log('User accessed Add Data form');
         return view('adddata');
-        
     }
 
     public function addData(Request $request)
@@ -43,8 +81,7 @@ class LDemoController extends Controller
         ]);
 
         $demodata = LDemo::create($validated);
-        $this->demoLogger->log("User added data: " . $demodata->name);
-        $this->demoLogger->log("Event triggered by " . $demodata->name);
+        activity('index')->log('User added data: ' . $demodata->name);
         event(new LoggedEvent($demodata));
         return redirect('/')->with('success', 'Data added successfully!');
     }
