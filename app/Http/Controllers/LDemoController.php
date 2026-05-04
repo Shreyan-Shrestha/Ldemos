@@ -22,7 +22,7 @@ class LDemoController extends Controller
         $startTime = microtime(true);
         $source = "database";
 
-        $page = request()->get('page', 1);
+        $page = request()->input('page', 1);
         $perPage = 5;
         
         if (Cache::has('activity.cache')) {

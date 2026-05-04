@@ -48,6 +48,8 @@
     </div>
     @endif
 
+    <h3 class="text-lg fw-semibold text-muted mb-3">{{ $timeTaken ? "Data source: $source - Time taken: " . number_format($timeTaken, 4) . " seconds" : '' }}</h3>
+
     {{-- Table card --}}
     <div class="card border-0" style="border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.06);">
         <div class="card-body p-0">
@@ -69,7 +71,7 @@
                         <td class="ps-4 py-3 align-middle">
                             <span class="badge fw-semibold"
                                 style="background:#f1f1f1; color:#555; border-radius:6px; font-size:0.78rem; letter-spacing:0.01em;">
-                                #{{ $order->customer_id }}
+                                {{ $order['customer_id'] }}
                             </span>
                         </td>
 
@@ -77,23 +79,23 @@
                             <div class="d-flex align-items-center gap-3">
                                 <div class="d-flex align-items-center justify-content-center fw-semibold text-white"
                                     style="width:34px; height:34px; border-radius:50%; background:#374151; font-size:0.8rem; flex-shrink:0;">
-                                    {{ strtoupper(substr($order->customer_name, 0, 2)) }}
+                                    {{ strtoupper(substr($order['customer_name'], 0, 2)) }}
                                 </div>
-                                <span class="fw-medium" style="font-size:0.925rem;">{{ $order->customer_name }}</span>
+                                <span class="fw-medium" style="font-size:0.925rem;">{{ $order['customer_name'] }}</span>
                             </div>
                         </td>
 
                         <td class="py-3 align-middle">
-                            <span class="fw-semibold" style="font-size:0.925rem;">${{ number_format($order->order_amount, 2) }}</span>
+                            <span class="fw-semibold" style="font-size:0.925rem;">${{ number_format($order['order_amount'], 2) }}</span>
                         </td>
 
                         <td class="py-3 pe-4 align-middle text-end">
                             <span class="fw-medium" style="font-size:0.925rem;">
-                                {{ $order->customer_email ?? '' }}
+                                {{ $order['customer_email'] ?? '' }}
                             </span>
                         </td>
                         <td class="py-3 pe-4 align-middle text-end">
-                            <a href="{{ route('orders.edit', $order->customer_id) }}"
+                            <a href="{{ route('orders.edit', $order['customer_id']) }}"
                                 class="btn btn-sm me-1"
                                 style="background:#f3f4f6; border:none; border-radius:7px; font-size:0.8rem; color:#374151; padding: 5px 12px;">
                                 <i class="bi bi-pencil me-1"></i>Edit
@@ -103,8 +105,8 @@
                                 style="background:#fff1f1; border:none; border-radius:7px; font-size:0.8rem; color:#c0392b; padding:5px 12px;"
                                 data-bs-toggle="modal"
                                 data-bs-target="#deleteModal"
-                                data-customer-name="{{ $order->customer_name }}"
-                                data-delete-url="{{ route('orders.destroy', $order->customer_id) }}">
+                                data-customer-name="{{ $order['customer_name'] }}"
+                                data-delete-url="{{ route('orders.destroy', $order['customer_id']) }}">
                                 <i class="bi bi-trash me-1"></i>Delete
                             </button>
                         </td>
