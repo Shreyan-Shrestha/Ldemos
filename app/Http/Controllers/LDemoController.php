@@ -21,20 +21,21 @@ class LDemoController extends Controller
     public function index()
     {
         //$this->demoLogger->log("User accessed Index page | " . request()->header('User-Agent') . " | Referer: " . request()->header('Referer'));
-        $activity = Activity::all();
-        $orders = Order::all();
-        return view('welcome', compact('activity', 'orders'));
+        $activity = Activity::inLog('default')->latest()->cursorPaginate(5);
+        $logindex = Activity::inLog('index')->get();
+        $orders = Order::all()->keyBy('customer_id');
+        return view('welcome', compact('activity', 'orders', 'logindex'));
     }
 
     public function demo1()
     {
-        $this->demoLogger->log("User accessed Demo1 page");
+       activity('index')->log('User accessed Demo1 page');
         return view('demo1');
     }
 
     public function addDataform()
     {
-        $this->demoLogger->log("User accessed Add Data form");
+        activity('index')->log('User accessed Add Data form');
         return view('adddata');
         
     }
@@ -47,8 +48,7 @@ class LDemoController extends Controller
         ]);
 
         $demodata = LDemo::create($validated);
-        $this->demoLogger->log("User added data: " . $demodata->name);
-        $this->demoLogger->log("Event triggered by " . $demodata->name);
+        activity('index')->log('User added data: ' . $demodata->name);
         event(new LoggedEvent($demodata));
         return redirect('/')->with('success', 'Data added successfully!');
     }

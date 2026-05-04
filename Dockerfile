@@ -34,6 +34,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         zip \
         intl
 
+# Installing the Redis extension for Laravel caching and queues
+RUN pecl install redis && docker-php-ext-enable redis
+
 # Install Composer globally
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 

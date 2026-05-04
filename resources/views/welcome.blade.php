@@ -9,7 +9,7 @@
     </div>
 
     <div class="text-center mt-3">
-        <h1 class="text-4xl font-bold text-blue-600 my-6">Homepage</h1>
+        <h1 class="text-4xl font-bold text-primary my-6">Homepage</h1>
         @if($demos->isEmpty())
         <p class="text-lg text-gray-600">No data available.</p>
 
@@ -28,15 +28,16 @@
     </div>
 
     <div class="mt-8">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4">Activity Log</h2>
+        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Activity Log</h3>
         @if($activity->isEmpty())
         <p class="text-lg text-gray-600">No activity recorded.</p>
         @else
-        <ul class="list-group text-start my-3 gap-2">
-            @foreach($activity as $act)
-            <table class="table-auto w-full">
+
+        <table class="table-auto w-full">
                 <thead>
                     <tr>
+                        <th class="border px-4 py-2">S.N</th>
+                        <th class="border px-4 py-2">Customer ID</th>
                         <th class="border px-4 py-2">Description</th>
                         <th class="border px-4 py-2">Date</th>
                         <th class="border px-4 py-2">Subject Type</th>
@@ -45,19 +46,48 @@
                         <th class="border px-4 py-2">Customer Email</th>
                     </tr>
                 </thead>
+            @foreach($activity as $act)
                 <tr>
+                    <td class="border px-4 py-2">{{ $loop->iteration }}</td>
+                    <td class="border px-4 py-2">{{ $act->subject_id }}</td>
                     <td class="border px-4 py-2">{{ $act->description }}</td>
                     <td class="border px-4 py-2">{{ $act->created_at }}</td>
                     <td class="border px-4 py-2">{{ $act->subject_type }}</td>
                     <td class="border px-4 py-2">{{ $orders[$act->subject_id]->customer_name ?? 'N/A' }}</td>
-                    <td class="border px-4 py-2">{{ $orders[$act->subject_id]->order_amount  ?? 'N/A' }}</td>
-                    <td class="border px-4 py-2">{{ $orders[$act->subject_id]->customer_email  ?? 'N/A' }}</td>
+                    <td class="border px-4 py-2">{{ $orders[$act->subject_id]->order_amount ?? 'N/A' }}</td>
+                    <td class="border px-4 py-2">{{ $orders[$act->subject_id]->customer_email ?? 'N/A' }}</td>
                 </tr>
             @endforeach
-        </ul>
+        </table>
         @endif
-
+    {{ $activity->links() }}
 </div>
+
+<div class="mt-8">
+        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Index Log</h3>
+        @if($logindex->isEmpty())
+        <p class="text-lg text-gray-600">No index activity recorded.</p>
+        @else
+
+        <table class="table-auto w-full">
+                <thead>
+                    <tr>
+                        <th class="border px-4 py-2">id</th>
+                        <th class="border px-4 py-2">Description</th>
+                        <th class="border px-4 py-2">Date</th>
+                        <th class="border px-4 py-2">Subject Type</th>
+                    </tr>
+                </thead>
+            @foreach($logindex as $log)
+                <tr>
+                    <td class="border px-4 py-2">{{ $log->id }}</td>
+                    <td class="border px-4 py-2">{{ $log->description }}</td>
+                    <td class="border px-4 py-2">{{ $log->created_at }}</td>
+                    <td class="border px-4 py-2">{{ $log->subject_type }}</td>
+                </tr>
+            @endforeach
+        </table>
+        @endif
 
 
 
