@@ -19,6 +19,8 @@ class LDemoController extends Controller
 
     public function index()
     {
+        $test= URI::current();
+        dd($test); 
         $startTime = microtime(true);
         $source = "database";
 
@@ -58,7 +60,7 @@ class LDemoController extends Controller
             ['path' => request()->url()]
         );
 
-        return view('welcome', compact('activity', 'orders', 'logindex', 'timeTaken', 'source'));
+        return view('welcome', compact('activity', 'orders', 'logindex', 'timeTaken', 'source', 'test'));
     }
 
     public function demo1()

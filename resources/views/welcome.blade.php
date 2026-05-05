@@ -4,6 +4,8 @@
 @section('content')
 <div class="container mx-auto p-4 mt-8 bg-gray-100">
     <div class="flex justify-end">
+        <h3>Logged in as: {{ auth()->user()->name }}</h3>
+        <p>{{ $test }}</p>
         <a href="{{ route('data.addDataForm') }}" class="inline-block mt-6 px-4 py-2 btn btn-primary">Add Data</a>
         <a href="{{ route('orders.index') }}" class="inline-block mt-6 px-4 py-2 btn btn-secondary ml-4">View Orders</a>
     </div>

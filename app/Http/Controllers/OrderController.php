@@ -16,6 +16,14 @@ use Illuminate\Support\Facades\DB;
 class OrderController extends Controller
 {
 
+    private function clearOrdersCache(){
+        $page=1;
+        while(Cache::has('orders.cache.page.' . $page)){
+            Cache::forget('orders.cache.page.' . $page);
+            $page++;
+        }
+    }
+
     public function index()
     {
         $startTime = microtime(true);
@@ -59,7 +67,7 @@ class OrderController extends Controller
     {
 
         $order = Order::create($request->validated());
-        Cache::tags(['orders'])->flush();
+        $this->clearOrdersCache();
         
         // Mail to customer if email provided
         // event (new OrderCreatedMailEvent($order));
@@ -88,14 +96,14 @@ class OrderController extends Controller
         $oldamount = $order->order_amount;
         $order->update($request->validated());
         // event(new OrderUpdatedEvent($order, $oldamount));
-        Cache::tags(['orders'])->flush();
+        $this->clearOrdersCache();
         return redirect()->route('orders.index')->with('success', 'Order updated successfully.');
     }
 
     public function destroy(Order $order)
     {
         $order->delete();
-        Cache::tags(['orders'])->flush();
+        $this->clearOrdersCache();
         // $this->demoLogger->log("User deleted order for " . $order->customer_name);
         return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
     }
