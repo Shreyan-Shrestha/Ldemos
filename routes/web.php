@@ -7,10 +7,18 @@ use App\Models\LDemo;
 use App\Http\Controllers\OrderController;
 use Spatie\Activitylog\Models\Activity;
 
+use App\Http\Controllers\PostController;
+
+Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+Route::patch('/posts/{post}/publish', [PostController::class, 'publish'])->name('posts.publish');
+Route::patch('/posts/{post}/unpublish', [PostController::class, 'unpublish'])->name('posts.unpublish');
+
 Route::resource('orders', OrderController::class);
 
-
 Route::get('/', [LDemoController::class, 'index'])->name('data.index');
+Route::get('/dashboard', [LDemoController::class, 'dashboard'])->name('dashboard');
+
 Route::get('/activitylog', function () {
     return Activity::all()->last();
 })->name('activitylog');
