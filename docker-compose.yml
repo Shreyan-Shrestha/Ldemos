@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     depends_on:
       - mysql_db
+      - elasticsearch
     volumes:
       - .:/var/www
     expose:

@@ -9,6 +9,10 @@ use Spatie\Activitylog\Models\Activity;
 
 use App\Http\Controllers\PostController;
 
+use App\Http\Controllers\SearchController;
+
+Route::get('/search', [SearchController::class, 'index'])->name('search.index');
+
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
 Route::patch('/posts/{post}/publish', [PostController::class, 'publish'])->name('posts.publish');
