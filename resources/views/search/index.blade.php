@@ -56,12 +56,6 @@
         @endif
     @endforelse
 
-    <div class="mt-8 mb-6 text-center text-sm text-gray-500">
-        <a href="https://qadrlabs.com"
-           class="text-blue-600 hover:text-blue-800 hover:underline transition"
-           target="_blank">Tutorial Elasticsearch at qadrlabs.com</a>
-    </div>
-
 </div>
 </body>
 </html>
