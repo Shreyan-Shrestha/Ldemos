@@ -3,9 +3,16 @@
 namespace App\Providers;
 
 use App\Models\LDemo;
+use App\Models\Post;
+use App\Observers\PostObserver;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use App\Repositories\Contracts\PostRepositoryInterface;
+use App\Repositories\PostRepository;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
+use Psr\Http\Client\ClientInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +21,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(PostRepositoryInterface::class, PostRepository::class);
+
+        $this->app->singleton(Client::class, function(){
+            return ClientBuilder::create()
+            ->setHosts([config('elasticsearch.host') ])
+            ->build();
+        });
+
+        $this->app->bind(ClientInterface::class, Client::class);
     }
 
     /**
@@ -28,5 +43,7 @@ class AppServiceProvider extends ServiceProvider
             $ldemos = LDemo::all();
             $view->with('demos', $ldemos);
         });
+
+        Post::observe(PostObserver::class);
     }
 }

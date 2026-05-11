@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     depends_on:
       - mysql_db
+      - elasticsearch
     volumes:
       - .:/var/www
     expose:
@@ -21,7 +22,7 @@ services:
     container_name: nginx_container
     restart: unless-stopped
     ports:
-      - "3000:80"
+      - "3050:80"
     depends_on:
       - laravel_app
     volumes:
@@ -76,6 +77,31 @@ services:
       PMA_USER: root
       PMA_PASSWORD: rootpassword
       PMA_DB: mydatabase
-    
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.0.0
+    container_name: es-demo
+    environment:
+      # Single-node mode skips the cluster formation ceremony
+      - discovery.type=single-node
+      # Disable TLS and authentication for local development only.
+      # Never use this setting in production.
+      - xpack.security.enabled=false
+      # Cap heap at 512 MB so it does not consume your entire machine RAM
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "9200:9200"
+    volumes:
+      # Named volume persists index data across container restarts
+      - esdata:/usr/share/elasticsearch/data
+
+
+
 volumes:
   mysql_data:
+
+  esdata:
+    driver: local
+
+ 
+

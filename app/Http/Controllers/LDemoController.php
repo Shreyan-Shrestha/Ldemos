@@ -8,10 +8,12 @@ use App\Events\LoggedEvent;
 use App\Models\LDemo;
 use App\Models\demobackup;
 use App\Models\Order;
+use Illuminate\Foundation\Exceptions\Renderer\Renderer;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+use RuntimeException;
 use Spatie\Activitylog\Models\Activity;
-use Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer;
+
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 
 class LDemoController extends Controller
 {
@@ -19,8 +21,6 @@ class LDemoController extends Controller
 
     public function index()
     {
-        $test= URI::current();
-        dd($test); 
         $startTime = microtime(true);
         $source = "database";
 
@@ -48,6 +48,7 @@ class LDemoController extends Controller
         $timeTaken = microtime(true) - $startTime;
 
         $logindex = Activity::inLog('index')->get();
+        $logerror = Activity::inLog('error')->get();
         $orders = Order::all()->keyBy('customer_id');
 
         $allActivity = collect($allActivity);
@@ -60,12 +61,16 @@ class LDemoController extends Controller
             ['path' => request()->url()]
         );
 
-        return view('welcome', compact('activity', 'orders', 'logindex', 'timeTaken', 'source', 'test'));
+        return view('welcome', compact('activity', 'orders', 'logindex', 'logerror', 'timeTaken', 'source'));
     }
 
+    public function dashboard(){
+        $data = Activity::all()->last();
+        return view('dashboard', compact('data'));
+    }
     public function demo1()
     {
-        activity('index')->log('User accessed Demo1 page');
+       Bugsnag::notifyException(new RuntimeException("Test error"));
         return view('demo1');
     }
 
