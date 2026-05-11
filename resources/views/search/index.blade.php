@@ -54,7 +54,7 @@
         @else
             <p class="text-gray-500 py-4">Enter a keyword above to search published posts.</p>
         @endif
-    @endforelse
+    @endforelse  
 
 </div>
 </body>

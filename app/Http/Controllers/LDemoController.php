@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Cache;
 use RuntimeException;
 use Spatie\Activitylog\Models\Activity;
 
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+
 class LDemoController extends Controller
 {
     public function __construct(public DemoLogger $demoLogger) {}
@@ -68,9 +70,8 @@ class LDemoController extends Controller
     }
     public function demo1()
     {
-        $err =new RuntimeException("This is a demo exception");
-        report($err);
-        return view('demo1', compact('err'));
+       Bugsnag::notifyException(new RuntimeException("Test error"));
+        return view('demo1');
     }
 
     public function addDataform()

@@ -62,11 +62,11 @@
         @endif
 
         {{-- Published Posts --}}
+        @if(!filled($query))
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h1 class="text-2xl font-bold text-gray-900 mb-6">Published Posts</h1>
 
             @forelse($posts as $post)
-                @if(!filled($query))
                 <div class="border-b border-gray-200 py-5 last:border-0">
                     <h2 class="text-lg font-semibold text-gray-900">{{ $post->title }}</h2>
                     <p class="text-sm text-gray-400 mt-1">
@@ -94,7 +94,7 @@
 
             @if(!filled($query))
                 <div class="mt-6">{{ $posts->links() }}</div>
-            @endif
+        @endif
         </div>
 
         {{-- Draft Posts --}}
